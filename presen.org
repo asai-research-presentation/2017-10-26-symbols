@@ -25,6 +25,14 @@ Made by guicho2.71828 (Masataro Asai)
 #+end_note
 #+end_outline-text-1
 
+* -
+
+#+begin_xlarge
+#+begin_center
+Physical Symbol Systems Hypothesis
+#+end_center
+#+end_xlarge
+
 * Physical Symbol Systems Hypothesis
 
 Alan Newell, Harbert Simon, 1975
@@ -54,14 +62,15 @@ Tries to describe the field of *Computer Science* as an instance of *empirical s
 ** Qualitative Hypothesis for CS
 
 #+begin_quote
-*The Physical Symbol System Hypothesis*: A physical symbol system has the necessary and suffcient means for general intelligent action.
+*The Physical Symbol System Hypothesis*: A physical symbol system has the
+ *necessary* and *suffcient* means for general intelligent action.
 #+end_quote
 
 + Physical Symbol System ::
      The system is realizable/engineered. i.e. human, computer
 + Physical Symbol ::
   + Not just human symbol systems (words like "cat"); include machine symbols.
-  + Physical patterns in the real world. ( e.g. patterns in the bitmaps of "1"s)
+  + Physical patterns in the real world. ( e.g. patterns that are common in the visual depiction of "1"s)
 
 ** Symbols
 
@@ -69,7 +78,7 @@ Tries to describe the field of *Computer Science* as an instance of *empirical s
 A physical symbol system consists of a set of entities, called symbols, which are physical patterns
 #+end_quote
 
-(It does not specify what kind of physical patterns they are, but something like the patterns in "1" or ☺)
+(not specify what kind of patterns they are, but something like the patterns in "1" or ☺)
 
 #+begin_src C
 
@@ -77,7 +86,8 @@ static *void A;                      /* A is a symbol */
 static *void B;                      /* B is another symbol */
 
 &A;                             /* The content/value disignated by the symbol A */
-                                /* We don't know what it is, but it is a physical pattern */
+                                /* We don't know what it is (hence *void),  */
+                                /* but it is *some* pattern */
 
 *A;                             /* The symbol itself */
 #+end_src
@@ -89,8 +99,9 @@ static *void B;                      /* B is another symbol */
 
 a                  ; a is the value of the symbol 'a
 'a                 ; 'a is a symbol (quoted)
+(quote a)          ; 'a is an abbreviation of an expression (quote a)
 
-;; Using a symbol automatically inserts an entry in a global table.
+;; Using a symbol automatically inserts an entity in a global symbol table.
 ;; This information is removed in C after compilation
 
 (do-all-symbols (s)
@@ -98,21 +109,19 @@ a                  ; a is the value of the symbol 'a
                    ; No equivalent in C...
 #+end_src
 
-*** Sometimes not removed... but not accessible within programs
+*** Sometimes not removed... but not accessible within programs    :noexport:
 
-#+begin_src
-objdump -T /usr/lib/x86_64-linux-gnu/libcurl.so
-
-/usr/lib/x86_64-linux-gnu/libcurl.so:     ファイル形式 elf64-x86-64
-
-DYNAMIC SYMBOL TABLE:
-0000000000000000      DF *UND*	0000000000000000  OPENSSL_1.0.0 BN_print
-0000000000000000      DF *UND*	0000000000000000  OPENSSL_1.0.0 MD5_Init
-0000000000000000      DF *UND*	0000000000000000  GLIBC_2.2.5 fileno
-...
-0000000000036f30 g    DF .text	000000000000034a  CURL_OPENSSL_3 curl_multi_wait
-000000000003b900 g    DF .text	0000000000000078  CURL_OPENSSL_3 curl_share_strerror
-#+end_src
+: objdump -T /usr/lib/x86_64-linux-gnu/libcurl.so
+: 
+: /usr/lib/x86_64-linux-gnu/libcurl.so:     ファイル形式 elf64-x86-64
+: 
+: DYNAMIC SYMBOL TABLE:
+: 0000000000000000      DF *UND*	0000000000000000  OPENSSL_1.0.0 BN_print
+: 0000000000000000      DF *UND*	0000000000000000  OPENSSL_1.0.0 MD5_Init
+: 0000000000000000      DF *UND*	0000000000000000  GLIBC_2.2.5 fileno
+: ...
+: 0000000000036f30 g    DF .text	000000000000034a  CURL_OPENSSL_3 curl_multi_wait
+: 000000000003b900 g    DF .text	0000000000000078  CURL_OPENSSL_3 curl_share_strerror
 
 ** Expression, or Symbol Structure
 
@@ -132,6 +141,7 @@ void* exp[3] = {plus, a, b} ;      /* an expression containing plus, A, B */
 #+begin_src lisp
 
 ;; Symbolic Expresssion / S-Expression / S-EXP / sexp, quoted
+
 '(+ a b)
 
 #+end_src
@@ -153,7 +163,7 @@ void* exp1[3] = {plus, a, b} ;      /* an expression containing plus, A, B */
 void* exp2[3] = {plus, c, d} ;      /* an expression containing plus, A, B */
 
 void* exp3[6] = concat(exp1, exp2);
-// --> {plus, a, b, plus, c, d}   i.e. concat produce a new expression.
+// --> {plus, a, b, plus, c, d}   i.e. concat produces a new expression.
 
 #+end_src
 
@@ -170,16 +180,16 @@ void* exp3[6] = concat(exp1, exp2);
 affect the object itself or behave in ways dependent on the object. (Designate = bind, pointer reference)
 #+end_quote
 
-: &B = A                          /* B designates A */
+: *B = A                          /* B designates A */
 
-Q: What does A refer to? A: unknown, complex patterns in images, or complex patterns in motore activity e.g. walk
+E.g. complex patterns in images, or complex patterns in motor activity e.g. walk
 
 #+begin_quote
 *Interpretation*. The system can interpret an expression if the expression designates a process
 and if, given the expression, the system can *carry out* the process. (Carry out = execute, run)
 #+end_quote
 
-Carry out =(+ a b)= : Compute the value of =a + b= numerically
+Carry out =(+ a b)= : Follow the function pointer and compute the value of =a + b=
 
 ** Essential requirements of sexps : completeness / closure
 
@@ -191,43 +201,47 @@ Carry out =(+ a b)= : Compute the value of =a + b= numerically
 
 #+begin_src C
 void* exp3[6] = concat(exp1, exp2); // exp1, exp2, exp3 are themselves symbols.
-exp3 = A;                          // It can be re-assigned to just a single symbol.
+*exp3 = A;                          // It can be re-assigned to just a single symbol.
 #+end_src
 
 #+begin_src lisp
 (setf exp3 A)
 #+end_src
 
-** Other essential requirements of sexps : completeness / closure
+** Other essential requirements of sexps :
 
-+ There exist expressions that designate every process of which the machine is capable.
++ There exist *expressions that designate every process* of which the machine is capable.
   + This obviously suggests the existence of =EVAL= function.
   + In case of planning, it is PDDL. (A machine restricted to a regular grammar)
-+ There exist processes for creating any expression and for modifying any expression in arbitrary ways.
++ There exist *processes for creating any expression* and for modifying them in any ways.
   + Again, EVAL.
-+ *Stableness*: Expressions are stable; once created they will continue to exist until explicitly modified or deleted.
-  + Seems obvious?
-+ *Unbounded* : The number of expressions that fine system can hold is essentially unbounded.
-  + The existence of dynamically allocated memory; Not common in the earliest computers.
++ *Stableness*: Expressions are stable.
+  + once created they will continue to exist until explicitly modified or deleted.
++ *Unbounded* : The number of expressions is essentially unbounded.
+  + Dynamically allocated memory; Not common in the earliest computers.
 
 #+begin_quote
 The type of system we have just defined is not unfamiliar to computer scientists. It bears a strong family
 resemblance to sit general purpose computers. If a symbol manipulation language, such as LISP, is taken
-as defining a machine, then the kinship becomes truly brotherly.
+as defining a machine, then *the kinship becomes truly brotherly*.
 #+end_quote
 
 This architecture is still a good model of today's computers.
 
-** The qualitative hypothesis for CS: The Physical Symbol System Hypothesis.
+** The Physical Symbol System Hypothesis.
 
 #+begin_quote
-A physical symbol system has the necessary and suffcient means for general intelligent action.
+A physical symbol system has the *necessary* and *suffcient* means for general intelligent action.
 #+end_quote
 
 + Necessary :: Any intelligent system will be proved to be a physical symbol system.
 + Sufficent :: If you have a physical symbol system of sufficient size, you can build an AI.
 
-Features:
+** The Physical Symbol System Hypothesis.
+
+#+begin_quote
+A physical symbol system has the *necessary* and *suffcient* means for general intelligent action.
+#+end_quote
 
 + This is a *qualitative* hypothesis.
   + It does not go into details.
@@ -238,28 +252,26 @@ Features:
   + You can build a symbolic system and test its intelligence.
   + You can test an intelligent being (human) and see if it has symbols.
   + You can build an intelligent system without symbols and disprove the hypothesis.
-  + Just as *Germ hypothesis*, no guarantee that *all* intelligence has a PSS, but *most* or *some* class of systems do.
+  + Just as *Germ hypothesis*, perhaps only *most* or *some* class of systems may satisfy PSSH.
 
 ** The development (history) of PSSH:
 
 Just briefly
 
-+ Formal Logic/Proofs: "symbol game" w/o meaning. Mechanical operations on highly abstracted expressions
-+ Turing machines/Information Theory: Defined what is computable. Defined what is information.
++ *Formal Logic*: "symbol game" w/o meaning. Mechanical operations on highly abstracted expressions
++ *Turing machines*: Defined what is computable. Defined what is information.
   + I/O are 0/1 strings. Data are *stable*
   + The tape has infinite length; *unbounded*
-  + Still lacks meaning == lacks designation (1st requirement of symbols)
+  + Still lacks meaning == *lacks designation* (1st requirement of symbols)
   + Lacks designation == can run a process but cannot designate a process
-+ Stored program (After Eniac): In-memory programs
-  + program = data. program pointers
-  + can designate a process
-+ List processing: LISP
++ *Stored program* (After Eniac): In-memory programs, not cards
+  + program = data. Program pointers *can designate a process*
++ *List processing: LISP*
   + Dynamic memory allocations + lots of pointer operations (cons cell)
-  + Programs were always considered *static* before
+  + Defines new functions dynamically (lambdas)
   + Produced a model of designation; Finally formed today's symbol manipulation
   + All tecnhical requirements were satisfied already, but it wasn't until LISP
-    that designation+interpretation is considered as the core concept of
-    computation
+    that designation+interpretation is considered as the core concept
 
 Theory + Hardware + Ideas were essential
 
@@ -270,48 +282,55 @@ How to prove PSSH? *Empirically*
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span6
-Sufficiency: Let's build an intelligent system using LISP
+*Sufficiency*: Let's build an AI using LISP
 
-Approach:
-
-+ Germ theory:
-  + Find a disease, then identify the germ.
-  + Found many germs, then study the commonarities.
-+ PSSH: Find an intelligent tasks, then write a program.
-  + Chess, puzzle, ...
-  + Commonarities found: *Heuristic Search Hypothesis* (later)
+Germ theory:
++ Find a disease, then identify the germ.
++ Found many germs, then study the commonarities.
+PSSH: Find an intelligent tasks, then write a program.
++ Chess, puzzle, ...
++ Commonarities found: *Heuristic Search Hypothesis* (later)
 #+end_span6
 #+begin_span6
-Necessity: Let's find symbols in human (Cognitive Science)
+*Necessity*: Let's find symbols in human (*Cognitive Science*)
 
-+ Observe human behavior in intelligent tasks
++ Observe human behaviors in intelligent tasks
   + Thinking aloud (thinking while uttering one's thought)
-+ Came to agree that human have symbols (short term memory, thunks...)
++ Came to agree that human have symbols (short term memory, chunks...)
 #+end_span6
 #+end_row-fluid
 #+end_container-fluid
 
+-----
+
 Other evidences: lack of competing hypothesis.
-Others lack the sufficiency criteria; thus lacks the attempt to recreate it
++ Others lack the sufficiency criteria; lacks the attempt to *engineer* it
 
+* -
 
+#+begin_xlarge
+#+begin_center
+Heuristic Search Hypothesis
+#+end_center
+#+end_xlarge
 
+Skipped: Essentially telling that *problem solving is a heuristic search*
 
-* Heuristic Search Hypothesis
+* Heuristic Search Hypothesis                                      :noexport:
 
 With PSSH, systems can answer a problem. What /is/ a problem?
 
-Plato / Socrates: Found it difficult how to even /entertain/ problems, let alone solving it.
+Plato / Socrates: Found it difficult how to even /come up with/ problems, let alone solving it.
 
-#+begin_quote
-Meno: And how will you inquire, Socrates,
-into that which you know not? What will you
-put forth as the subject of inquiry? And if you
-find what you want, how will you ever know that
-this is what you did not know?
-#+end_quote
+# #+begin_quote
+# Meno: And how will you inquire, Socrates,
+# into that which you know not? What will you
+# put forth as the subject of inquiry? And if you
+# find what you want, how will you ever know that
+# this is what you did not know?
+# #+end_quote
 
-Modern definition of a problem:
+Modern definition of problems:
 
 #+begin_quote
 To state a problem is to designate
@@ -322,6 +341,10 @@ To state a problem is to designate
 To solve a problem is to generate a structure, using (2), that satisfies the test of (1).
 #+end_quote
 
+#+begin_larger
+i.e. *it allows to enumerate & test = search.*
+#+end_larger
+
 ** Heuristic Search Hypothesis
 
 #+begin_quote
@@ -329,17 +352,23 @@ To solve a problem is to generate a structure, using (2), that satisfies the tes
 problems are represented as symbol structures.
 A PSS exercises its intelligence in problem solving by search - that is, by
 generating and progressively modifying symbol
-structures until it produces a solution structure,
+structures until it produces a solution structure.
 #+end_quote
 
-In practical systems, the efficiency matters. Chess players largely prune nodes. So should other intelligence.
+#+begin_larger
+i.e. *it is solved by enumerate & test = search.*
+#+end_larger
+
+However, in practical systems, the efficiency matters.
+Chess players largely prune nodes. So should other intelligence.
 
 ** Conditions for Intelligence
 
 + Do not resort to brute-force search.
-+ Extract information from the test (e.g. goals) and the generator structure (e.g. environment) of the problem
++ Extract information from the problem to guide the search
+  + test (e.g. goals) and the generator structure (e.g. environment) of the problem
 + Intelligent problems != Large problems.
-  + Intelligent problems are exploitable and intelligent system can minimize the search effort.
+  + Intelligent problems are exploitable by intelligent systems for minimizing the search effort.
 
 In a chaotic environment (no exploitable information), no intelligence can exist (similar to no free lunch theorem)
 
@@ -352,9 +381,9 @@ In a chaotic environment (no exploitable information), no intelligence can exist
 
 + Vera, Simon 1993 "Situated Action: A Symbolic Interpretation"
 
-  + Rebuttal against /Situated Action/ claim
+  + Rebuttal against /Situated Action/ claims
 
-  + Brooks' claim is a leading example of SA
+  + Brooks' claim was one of the leading example of SA claims
 
 * 
 
