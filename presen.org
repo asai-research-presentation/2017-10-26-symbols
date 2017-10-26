@@ -254,7 +254,7 @@ A physical symbol system has the *necessary* and *suffcient* means for general i
   + You can build an intelligent system without symbols and disprove the hypothesis.
   + Just as *Germ hypothesis*, perhaps only *most* or *some* class of systems may satisfy PSSH.
 
-** The development (history) of PSSH:
+** The development (history) of PSSH:                              :noexport:
 
 Just briefly
 
@@ -385,5 +385,148 @@ In a chaotic environment (no exploitable information), no intelligence can exist
 
   + Brooks' claim was one of the leading example of SA claims
 
+I found it really difficult to summarize these discussion; because of so many undefined terms and unproved arguments.
+
+* The summary of Brooks' paper
+
++ *Primitive agents should be built first / deserves more attention*
++ *Symbolic representation is cheating*
++ Propose *subsumption architecture*
+  + Intelligent agent should be built *incrementary*
++ In such an architecture *no central representation is feasible/possible*
+
+** Primitive agents should be built first / deserves more attention
+
+ Because "*Just survive*" *is more difficult than behaving intelligently*
+
+ | yrs ago   |                      |
+ |-----------+----------------------|
+ | 3.5B      | Single-cell microbes |
+ | 2.5B      | plants               |
+ | 0.5B/500M | first fish           |
+ | 450M      | insects              |
+ | 370M      | Reptiles             |
+ | 330M      | Dinasors             |
+ | 250M      | Mammals              |
+ | 120M      | Primates             |
+ | 18M       | Greate Apes          |
+ | 2.5M      | Man                  |
+ | 19k       | Agriculture          |
+ | 5k        | Writing              |
+ | ~300      | "expert knowledge"   |
+
+So, we build the primitive agents first
+
+My objection:  Matsuo position paper
+
+** Symbolic representation is cheating (Abstraction as a dangerous weapon)
+
++ AI never has any successes.
+  + When a difficult problem (e.g. chess) arise, it is an AI problem.
+  + When it was solved, it is no longer an AI problem.
++ AI never fails.
+  + AI researchers pick easy problems and call them AI problems.
+    + Easy problems: problems that can be symbolically represented
+  + Other problems are disregarded as non-AI.
+
+: (can (sit-on person chair)), (can (stand-on person chair))
+
+Above representation discards other aspects: e.g. chairs are soft, it has flat surface, etc.
+
+Also, this abstraction is done by researchers, not automatically (symbol grounding)
+
+** Intelligent agent should be built incrementary
+
+"Creature" robot should:
+
++ work quickly (reflexive), robustly,
++ be parallel and distributed. multiple goals
++ percept-plan-behave loop is subject to cheating, so don't do that
+
+Subsumption Architecture (summary):
+
++ Networks of FSMs that independently decides the output (motor) from input (sensors)
++ Lower-level FSMs can suppress the higher-level FSM's output.
+  + Avoid -> Wander -> Explore
++ Output is directly connected to actuation. Thus *quick*
++ Network carries just numbers, *no central representation*
++ Lower-level FSMs are debugged carefully
+  + When the environments changes, Higher FSMs may fail but Lower FSMs don't
+    + Thus *distributed*, *robust*
+  + Some ineffective goals are discarded by subsumption, thus *multiple goals*
+
+My objection: This is just same as distributed portfolio of symbolic
+agents. FSMs are symbolic functions. But they just have no plans.
+
+** Pic
+
+[[png:static/subsumption]]
+
+* The summary of Situation Actions (SA)
+
+Situated Actions:
+
+#+begin_quote
+Behavior is directly and solery affected by the environment, without representation.
+#+end_quote
+
+* The summary of rebuttal by Vera, Simon
+
+Several claims from the mixed standpoints are presented in the paper. Consists of three types of rebuttals:
+
++ Corrects the misinterpretation of PSSH
++ Points out flaws in SA
++ Show examples of SA ideas implemented in symbolic systems
+
+* Misinterpretations
+
++ Symbol systems require planning --- *not true*.
+  + Symbolic representation of reflexes are possible and commonly known.
+  + e.g. symbolic production rule (situation -> response)
++ Symbolic knowledge needs to be conscious --- *not true*.
+  + Action done subconsciously may have symbolic representation in brain and nothing disproves it.
++ Symbolic systems lack perception --- *not true*.
+  + Symbols designates patterns, and patterns are from perceptions of external worlds.
+
+* Points out flaws in various SA 
+
+Human Computer Interaction.
+
+  + Good tools should be transparent, and tools don't have to be like a human. AI is useless
+    + Agree, but it is complementary / nothing to do with PSSH
+  + Bad tools cause "breakdown"
+    + Breakdown = situation of non-obviousness which cause investigation (e.g. error messages)
+    + After Breakdown, a person figures out the internal mechanism of a tool (= symbolic understanding)
+    + Good tools achieve /readiness-to-hand/ without breakdowns
+    + Then internal representation is not necessary
+  + But SA claims that the world is cluttered == breakdown is mandatory.
+
+* Affordances
+
++ Once a technique is learned, then the internal representation is LOST.
+  + *Not*. it is just unconscious. (Simon)
+
++ 急流
+
+I think this is possible sometimes, because people forget.
+
+* Education
+
++ Better to teach with real objects
+  + What is 3/4 of 1/2?
+    + 3*1 / 4*2
+    + Spread the cheese in circle, divide it in half, spread again, cut out quater
+  + Thus, better to use intuitive objects, not symbolic knowledge
++ Simon: Symbolic knowledge itself does not guarantee that the representation is
+  connected to the other symbols or external patterns.
+
+
+  + 
++ There is 
++ Affordances:
+  + Once 
+
 * 
+
+* My opinion
 
